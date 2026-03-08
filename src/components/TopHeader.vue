@@ -120,24 +120,51 @@ defineProps<{
 }
 
 @media (max-width: 768px) {
+  .intro-header {
+    min-height: 60vh;
+    max-height: 60vh;
+  }
+
   .overlay {
+    left: 0;
+    top: auto;
+    bottom: 0;
     width: 100%;
+    border-radius: 0;
     background: linear-gradient(
       to top,
-      var(--color-dark-brown) 0%,
-      color-mix(in srgb, var(--color-dark-brown) 60%, transparent) 60%,
+      color-mix(in srgb, var(--color-dark-brown) 95%, transparent) 0%,
+      color-mix(in srgb, var(--color-dark-brown) 70%, transparent) 50%,
       transparent 100%
     );
     justify-content: flex-end;
-    padding: 2rem;
+    align-items: center;
+    padding: 3rem 1.5rem 1.5rem;
+    text-align: center;
+  }
+
+  .logo-container {
+    margin-bottom: 0.75rem;
+  }
+
+  .logo-placeholder {
+    width: 80px;
+    height: 50px;
+    font-size: 0.85rem;
   }
 
   .title {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
   }
 
   .short-desc {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .button {
+    margin-top: 0.75rem;
   }
 }
 </style>

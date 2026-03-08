@@ -35,4 +35,12 @@ defineProps<{
 .order-button:active {
   transform: scale(0.98);
 }
+
+@media (max-width: 768px) {
+  .order-button {
+    width: 80%;
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+  }
+}
 </style>

@@ -5,7 +5,11 @@
   font-weight: normal;
 }
 
-a,
+a {
+  text-decoration: none;
+  transition: 0.4s;
+}
+
 .green {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
@@ -14,7 +18,7 @@ a,
 }
 
 @media (hover: hover) {
-  a:hover {
+  a.green:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }

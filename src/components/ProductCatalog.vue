@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   products: Array<{
@@ -10,13 +10,32 @@ const props = defineProps<{
   }>
 }>()
 
-const currentIndex = ref(0)
-const isScrollable = computed(() => props.products.length > 3)
-const maxIndex = computed(() => Math.max(0, props.products.length - 3))
+const visibleCount = ref(3)
 
-const scrollTransform = computed(() => {
-  if (!isScrollable.value) return {}
-  return { transform: `translateX(calc(-${currentIndex.value} * (var(--card-width) + var(--card-gap))))` }
+function updateVisibleCount() {
+  const w = window.innerWidth
+  if (w <= 600) visibleCount.value = 1
+  else if (w <= 900) visibleCount.value = 2
+  else visibleCount.value = 3
+}
+
+onMounted(() => {
+  updateVisibleCount()
+  window.addEventListener('resize', updateVisibleCount)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', updateVisibleCount)
+})
+
+const isMobile = computed(() => visibleCount.value === 1)
+const currentIndex = ref(0)
+const isScrollable = computed(() => props.products.length > visibleCount.value)
+const maxIndex = computed(() => Math.max(0, props.products.length - visibleCount.value))
+
+watch(maxIndex, (newMax) => {
+  if (currentIndex.value > newMax) {
+    currentIndex.value = newMax
+  }
 })
 
 function scrollLeft() {
@@ -30,12 +49,48 @@ function scrollRight() {
     currentIndex.value++
   }
 }
+
+// Touch swipe support with drag-follow
+const dragOffset = ref(0)
+const isDragging = ref(false)
+let touchStartX = 0
+const SWIPE_THRESHOLD = 50
+
+const scrollTransform = computed(() => {
+  if (!isScrollable.value) return {}
+  const base = `calc(-${currentIndex.value} * (var(--card-width) + var(--card-gap)))`
+  if (isDragging.value && dragOffset.value !== 0) {
+    return { transform: `translateX(calc(${base} + ${dragOffset.value}px))` }
+  }
+  return { transform: `translateX(${base})` }
+})
+
+function onTouchStart(e: TouchEvent) {
+  touchStartX = e.touches[0].clientX
+  isDragging.value = true
+  dragOffset.value = 0
+}
+
+function onTouchMove(e: TouchEvent) {
+  if (!isDragging.value) return
+  const currentX = e.touches[0].clientX
+  dragOffset.value = currentX - touchStartX
+}
+
+function onTouchEnd() {
+  isDragging.value = false
+  if (Math.abs(dragOffset.value) > SWIPE_THRESHOLD) {
+    if (dragOffset.value < 0) scrollRight()
+    else scrollLeft()
+  }
+  dragOffset.value = 0
+}
 </script>
 
 <template>
   <section class="product-catalog">
     <button
-      v-if="isScrollable"
+      v-if="isScrollable && !isMobile"
       class="scroll-btn scroll-btn-left"
       :disabled="currentIndex === 0"
       @click="scrollLeft"
@@ -43,10 +98,15 @@ function scrollRight() {
       ‹
     </button>
 
-    <div class="products-wrapper">
+    <div
+      class="products-wrapper"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
+    >
       <div
         class="products-grid"
-        :class="{ 'is-scrollable': isScrollable }"
+        :class="{ 'is-scrollable': isScrollable, 'is-dragging': isDragging }"
         :style="scrollTransform"
       >
       <a
@@ -62,10 +122,19 @@ function scrollRight() {
         <p class="product-description">{{ product.description }}</p>
       </a>
       </div>
+
+      <div v-if="isMobile && isScrollable" class="swipe-dots">
+        <span
+          v-for="i in products.length"
+          :key="i"
+          class="dot"
+          :class="{ active: currentIndex === i - 1 }"
+        />
+      </div>
     </div>
 
     <button
-      v-if="isScrollable"
+      v-if="isScrollable && !isMobile"
       class="scroll-btn scroll-btn-right"
       :disabled="currentIndex === maxIndex"
       @click="scrollRight"
@@ -106,6 +175,10 @@ function scrollRight() {
   justify-content: flex-start;
 }
 
+.products-grid.is-dragging {
+  transition: none;
+}
+
 .product-card {
   flex: 0 0 var(--card-width);
 }
@@ -125,8 +198,8 @@ function scrollRight() {
 }
 
 .image-wrapper {
-  width: 100%;
-  border-radius: 1rem;
+  margin: 0.25rem 0.25rem 0;
+  border-radius: 0.75rem;
   aspect-ratio: 1;
   overflow: hidden;
   transition: transform 0.3s;
@@ -178,20 +251,62 @@ function scrollRight() {
 }
 
 @media (max-width: 900px) {
+  .product-catalog {
+    padding: 1.5rem 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .products-wrapper {
+    --card-width: calc((100% - 1rem) / 2);
+    --card-gap: 1rem;
+  }
+
   .product-card {
-    flex: 0 0 calc((100% - 2rem) / 2);
+    flex: 0 0 var(--card-width);
   }
 }
 
 @media (max-width: 600px) {
+  .product-catalog {
+    padding: 1rem;
+    gap: 0;
+  }
+
+  .products-wrapper {
+    --card-width: 100%;
+    --card-gap: 1rem;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
   .product-card {
     flex: 0 0 100%;
+    min-width: 0;
   }
 
   .scroll-btn {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1.25rem;
+    display: none;
   }
+}
+
+.swipe-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-brown);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+}
+
+.dot.active {
+  opacity: 1;
+  background: var(--color-dark-brown);
 }
 </style>
