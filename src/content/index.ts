@@ -41,6 +41,16 @@ export interface FooterSettings {
 
 // --- Frontmatter parser ---
 
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+function resolveAssetPath(path: string): string {
+  if (!path) return path
+  if (path.startsWith('/') && !path.startsWith(BASE + '/')) {
+    return BASE + path
+  }
+  return path
+}
+
 function parseFrontmatter(content: string): { data: Record<string, unknown>; body: string } {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
   if (!match) return { data: {}, body: content }
@@ -81,8 +91,8 @@ export async function getHomeContent(): Promise<HomeContent> {
   return {
     title: (data.title as string) ?? '',
     shortDesc: (data.shortDesc as string) ?? '',
-    logoSrc: (data.logoSrc as string) ?? '',
-    backgroundImageSrc: (data.backgroundImageSrc as string) ?? '',
+    logoSrc: resolveAssetPath((data.logoSrc as string) ?? ''),
+    backgroundImageSrc: resolveAssetPath((data.backgroundImageSrc as string) ?? ''),
     orderButtonHref: (data.orderButtonHref as string) ?? '',
   }
 }
@@ -94,7 +104,7 @@ export async function getProducts(): Promise<Product[]> {
       name: (data.name as string) ?? '',
       description: (data.description as string) ?? '',
       price: (data.price as string) ?? '',
-      imageSrc: (data.imageSrc as string) ?? '',
+      imageSrc: resolveAssetPath((data.imageSrc as string) ?? ''),
       orderUrl: (data.orderUrl as string) ?? '',
     }
   })
@@ -126,7 +136,7 @@ export async function getAboutContent(): Promise<AboutContent> {
   const { data, body } = parseFrontmatter(raw)
   const images = Array.isArray(data.images)
     ? (data.images as Array<{ src: string; alt: string }>).map((img) => ({
-        src: img?.src ?? '',
+        src: resolveAssetPath(img?.src ?? ''),
         alt: img?.alt ?? '',
       }))
     : []
