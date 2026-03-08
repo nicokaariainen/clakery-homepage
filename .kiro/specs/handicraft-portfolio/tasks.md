@@ -177,6 +177,26 @@ Incrementally build out the C.Clakery portfolio site by adding Vue Router, layou
 - [x] 14. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
+- [x] 15. Move contact form recipient email from TinaCMS to environment variable
+  - [x] 15.1 Add `VITE_RECIPIENT_EMAIL` to `.env`
+    - Add `VITE_RECIPIENT_EMAIL=contact@example.com` to the existing `.env` file
+    - _Requirements: 7.8_
+  - [x] 15.2 Update `env.d.ts` with `VITE_RECIPIENT_EMAIL` type declaration
+    - Add `readonly VITE_RECIPIENT_EMAIL: string` to the `ImportMetaEnv` interface
+    - _Requirements: 7.8_
+  - [x] 15.3 Update `src/views/ContactView.vue` to read recipient email from environment variable
+    - Replace `getContactSettings()` call with `import.meta.env.VITE_RECIPIENT_EMAIL`
+    - Remove the `onMounted` or setup logic that fetched contact settings from TinaCMS
+    - _Requirements: 7.8_
+  - [x] 15.4 Remove contact-related TinaCMS content and configuration
+    - Remove the `contact` collection from `tina/config.ts`
+    - Remove `getContactSettings()`, `ContactSettings` interface, and `contactFiles` glob import from `src/content/index.ts`
+    - Delete `content/contact/index.json`
+    - _Requirements: 7.8, 9.2_
+
+- [ ] 16. Checkpoint - Verify contact email environment variable migration
+  - Ensure all tests pass, ask the user if questions arise.
+
 ## Notes
 
 - Tasks marked with `*` are optional and can be skipped for faster MVP

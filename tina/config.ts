@@ -73,15 +73,6 @@ export default defineConfig({
         ],
       },
       {
-        name: 'contact',
-        label: 'Contact Settings',
-        path: 'content/contact',
-        format: 'json',
-        fields: [
-          { type: 'string', name: 'recipientEmail', label: 'Recipient Email' },
-        ],
-      },
-      {
         name: 'footer',
         label: 'Footer Settings',
         path: 'content/footer',

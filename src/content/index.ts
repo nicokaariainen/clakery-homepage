@@ -30,10 +30,6 @@ export interface AboutContent {
   description: string
 }
 
-export interface ContactSettings {
-  recipientEmail: string
-}
-
 export interface FooterSettings {
   artistName: string
   instagramUrl: string
@@ -77,7 +73,6 @@ const homeFiles = import.meta.glob('/content/home/*.md', { query: '?raw', import
 const productFiles = import.meta.glob('/content/products/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const blogFiles = import.meta.glob('/content/blog/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const aboutFiles = import.meta.glob('/content/about/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
-const contactFiles = import.meta.glob('/content/contact/*.json', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const footerFiles = import.meta.glob('/content/footer/*.json', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 // --- Content accessor functions ---
@@ -141,19 +136,6 @@ export async function getAboutContent(): Promise<AboutContent> {
       }))
     : []
   return { images, description: body }
-}
-
-export async function getContactSettings(): Promise<ContactSettings> {
-  const raw = contactFiles['/content/contact/index.json']
-  if (!raw) {
-    return { recipientEmail: '' }
-  }
-  try {
-    const parsed = JSON.parse(raw)
-    return { recipientEmail: (parsed.recipientEmail as string) ?? '' }
-  } catch {
-    return { recipientEmail: '' }
-  }
 }
 
 export async function getFooterSettings(): Promise<FooterSettings> {

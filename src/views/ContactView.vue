@@ -56,8 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted } from 'vue'
-import { getContactSettings } from '../content'
+import { reactive, ref } from 'vue'
 
 interface ContactFormData {
   name: string
@@ -74,18 +73,8 @@ const formData = reactive<ContactFormData>({
 const errors = reactive<Partial<Record<keyof ContactFormData, string>>>({})
 const submitStatus = ref<'idle' | 'sending' | 'success' | 'error'>('idle')
 const errorMessage = ref('')
-const recipientEmail = ref('')
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-onMounted(async () => {
-  try {
-    const settings = await getContactSettings()
-    recipientEmail.value = settings.recipientEmail ?? ''
-  } catch {
-    // Fallback: recipientEmail stays empty, form still works via StaticForms access key
-  }
-})
 
 function validate(): boolean {
   errors.name = undefined

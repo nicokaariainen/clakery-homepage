@@ -104,7 +104,7 @@ This document defines the requirements for a portfolio and homepage for a handic
 5. IF a visitor submits the Contact_Form with an invalid email format, THEN THE Contact_Form SHALL display an email format validation error
 6. WHEN the email is sent successfully, THE Contact_Form SHALL display a success confirmation message
 7. IF the email sending fails, THEN THE Contact_Form SHALL display an error message indicating the failure
-8. THE Contact_Form recipient email address SHALL be configurable through TinaCMS
+8. THE Contact_Form recipient email address SHALL be read from the VITE_RECIPIENT_EMAIL environment variable
 
 ### Requirement 8: Footer
 
@@ -126,7 +126,7 @@ This document defines the requirements for a portfolio and homepage for a handic
 #### Acceptance Criteria
 
 1. THE App SHALL integrate TinaCMS as the content management system
-2. THE App SHALL define TinaCMS collections for Home page content, Products, Blog posts, About Me content, Contact page settings, and Footer settings
+2. THE App SHALL define TinaCMS collections for Home page content, Products, Blog posts, About Me content, and Footer settings
 3. WHEN content is updated in TinaCMS, THE App SHALL reflect the changes after the next build or page load
 4. THE App SHALL store TinaCMS content in the Git repository as markdown or JSON files
 

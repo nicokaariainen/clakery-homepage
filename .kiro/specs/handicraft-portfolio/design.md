@@ -4,7 +4,7 @@
 
 This design describes the architecture for the C.Clakery handicraft artist portfolio site, a Vue 3 + TypeScript + Vite single-page application. The site consists of five views (Home, Products, Blog, About Me, Contact) connected by a persistent navigation bar and footer. All content is managed through TinaCMS, a Git-backed headless CMS that stores content as markdown/JSON files in the repository.
 
-The existing codebase already provides a `TopHeader.vue` hero component, a `ProductCatalog.vue` carousel/grid component, and an `OrderButton.vue` component. The design extends this foundation with Vue Router for client-side routing, a markdown rendering pipeline for blog posts, a contact form with email submission, and TinaCMS integration for content management.
+The existing codebase already provides a `TopHeader.vue` hero component, a `ProductCatalog.vue` carousel/grid component, and an `OrderButton.vue` component. The design extends this foundation with Vue Router for client-side routing, a markdown rendering pipeline for blog posts, a contact form with email submission (recipient configured via environment variable), and TinaCMS integration for content management.
 
 ### Key Design Decisions
 
@@ -215,6 +215,7 @@ interface ContactFormState {
 
 - Validates all fields are non-empty on submit.
 - Validates email format with a regex pattern.
+- Reads recipient email from `import.meta.env.VITE_RECIPIENT_EMAIL` environment variable.
 - Sends form data to a configured email endpoint.
 - Displays success/error feedback after submission.
 
@@ -300,14 +301,6 @@ description: "About the artist..."
 ---
 ```
 
-#### Contact Settings (`content/contact/index.json`)
-
-```json
-{
-  "recipientEmail": "[email]"
-}
-```
-
 #### Footer Settings (`content/footer/index.json`)
 
 ```json
@@ -319,7 +312,7 @@ description: "About the artist..."
 
 ### TinaCMS Schema (`tina/config.ts`)
 
-The TinaCMS configuration defines collections that map to the content files above. Each collection specifies the fields, their types, and the content directory path. This schema drives both the admin editing UI and the GraphQL API used by the Vue components to fetch content.
+The TinaCMS configuration defines collections that map to the content files above (Home, Products, Blog, About, Footer). Each collection specifies the fields, their types, and the content directory path. This schema drives both the admin editing UI and the GraphQL API used by the Vue components to fetch content.
 
 ```typescript
 import { defineConfig } from 'tinacms'
@@ -380,15 +373,6 @@ export default defineConfig({
             { type: 'string', name: 'alt', label: 'Alt Text' },
           ]},
           { type: 'rich-text', name: 'description', label: 'Description', isBody: true },
-        ],
-      },
-      {
-        name: 'contact',
-        label: 'Contact Settings',
-        path: 'content/contact',
-        format: 'json',
-        fields: [
-          { type: 'string', name: 'recipientEmail', label: 'Recipient Email' },
         ],
       },
       {
