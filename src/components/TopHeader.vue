@@ -6,6 +6,11 @@ defineProps<{
   shortDesc?: string
   backgroundImageSrc?: string
 }>()
+
+function onImageError(event: Event) {
+  const img = event.target as HTMLImageElement
+  img.style.display = 'none'
+}
 </script>
 
 <template>
@@ -15,12 +20,13 @@ defineProps<{
       :src="backgroundImageSrc"
       alt="Background"
       class="background-image"
+      @error="onImageError"
     />
     <div v-else class="background-placeholder"></div>
 
     <div class="overlay">
       <div class="logo-container">
-        <img v-if="logoSrc" :src="logoSrc" alt="Logo" class="logo" />
+        <img v-if="logoSrc" :src="logoSrc" alt="Logo" class="logo" @error="onImageError" />
         <div v-else class="logo-placeholder">Logo</div>
       </div>
 

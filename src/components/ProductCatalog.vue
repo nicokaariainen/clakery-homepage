@@ -66,14 +66,18 @@ const scrollTransform = computed(() => {
 })
 
 function onTouchStart(e: TouchEvent) {
-  touchStartX = e.touches[0].clientX
+  const touch = e.touches[0]
+  if (!touch) return
+  touchStartX = touch.clientX
   isDragging.value = true
   dragOffset.value = 0
 }
 
 function onTouchMove(e: TouchEvent) {
   if (!isDragging.value) return
-  const currentX = e.touches[0].clientX
+  const touch = e.touches[0]
+  if (!touch) return
+  const currentX = touch.clientX
   dragOffset.value = currentX - touchStartX
 }
 
