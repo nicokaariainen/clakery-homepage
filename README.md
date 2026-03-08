@@ -40,3 +40,12 @@ npm run dev
 ```sh
 npm run build
 ```
+
+
+## TODO
+
+- Animations - will make the page more proffessional
+- Custom favicon.ico for a polished look
+- Add products to front page
+- Add instagram svg to all places related to instagram
+- Fix the order link to go to the right place
