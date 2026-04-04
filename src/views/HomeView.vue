@@ -13,7 +13,7 @@ import ProductCatalog from '@/components/ProductCatalog.vue'
 import AboutSection from '@/components/AboutSection.vue'
 import ContactSection from '@/components/ContactSection.vue'
 
-const home = ref<HomeContent>({ title: '', shortDesc: '', description: '', ctaLabel: '' })
+const home = ref<HomeContent>({ title: '', shortDesc: '', description: '', ctaLabel: '', logoSrc: '' })
 const products = ref<Product[]>([])
 const about = ref<AboutContent>({ makerEmoji: '', bio: '', quote: '' })
 
@@ -40,6 +40,7 @@ onMounted(async () => {
       :tagline="home.shortDesc"
       :description="home.description"
       :cta-label="home.ctaLabel"
+      :logo-src="home.logoSrc"
       @cta-click="handleCtaClick"
     />
     <ProductCatalog :products="products" />

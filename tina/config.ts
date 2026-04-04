@@ -23,6 +23,7 @@ export default defineConfig({
         format: 'md',
         fields: [
           { type: 'string', name: 'title', label: 'Brand Name' },
+          { type: 'image', name: 'logoSrc', label: 'Brand Logo' },
           { type: 'string', name: 'shortDesc', label: 'Tagline' },
           { type: 'string', name: 'description', label: 'Hero Description', ui: { component: 'textarea' } },
           { type: 'string', name: 'ctaLabel', label: 'CTA Button Label' },

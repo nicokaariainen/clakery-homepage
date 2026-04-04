@@ -4,6 +4,7 @@ defineProps<{
   tagline: string
   description: string
   ctaLabel: string
+  logoSrc: string
 }>()
 
 const emit = defineEmits<{
@@ -23,6 +24,7 @@ function handleCtaClick() {
       <div class="blob blob-3"></div>
     </div>
     <div class="hero-content">
+      <img v-if="logoSrc" :src="logoSrc" alt="c.clakery logo" class="hero-logo" />
       <h1 class="hero-title">c.<span class="accent">clakery</span></h1>
       <p class="hero-tagline">{{ tagline }}</p>
       <p class="hero-desc">{{ description }}</p>
@@ -94,6 +96,12 @@ function handleCtaClick() {
   z-index: 2;
   padding: 0 40px;
   animation: fadeUp 1s ease-out 0.3s both;
+}
+
+.hero-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 16px;
 }
 
 .hero-title {

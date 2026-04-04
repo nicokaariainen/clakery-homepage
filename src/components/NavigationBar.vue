@@ -6,6 +6,10 @@ const route = useRoute()
 const router = useRouter()
 const isMobileMenuOpen = ref(false)
 
+defineProps<{
+  logoSrc?: string
+}>()
+
 interface NavLink {
   label: string
   hash?: string
@@ -46,7 +50,10 @@ function handleNavClick(link: NavLink) {
 
 <template>
   <nav class="navigation-bar" aria-label="Main navigation">
-    <div class="nav-logo">c.<span>clakery</span></div>
+    <div class="nav-logo">
+      <img v-if="logoSrc" :src="logoSrc" alt="c.clakery logo" class="nav-logo-img" />
+      <span class="nav-logo-text">c.<span>clakery</span></span>
+    </div>
     <button
       class="hamburger"
       type="button"
@@ -96,9 +103,17 @@ function handleNavClick(link: NavLink) {
   font-size: 22px;
   color: var(--dark-brown);
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.nav-logo span {
+.nav-logo-img {
+  width: 32px;
+  height: auto;
+}
+
+.nav-logo-text span {
   color: var(--terracotta);
 }
 

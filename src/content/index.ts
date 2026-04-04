@@ -7,6 +7,7 @@ export interface HomeContent {
   shortDesc: string
   description: string
   ctaLabel: string
+  logoSrc: string
 }
 
 export interface Product {
@@ -83,7 +84,7 @@ const footerFiles = import.meta.glob('/content/footer/*.json', { query: '?raw', 
 export async function getHomeContent(): Promise<HomeContent> {
   const raw = homeFiles['/content/home/index.md']
   if (!raw) {
-    return { title: '', shortDesc: '', description: '', ctaLabel: '' }
+    return { title: '', shortDesc: '', description: '', ctaLabel: '', logoSrc: '' }
   }
   const { data } = parseFrontmatter(raw)
   return {
@@ -91,6 +92,7 @@ export async function getHomeContent(): Promise<HomeContent> {
     shortDesc: (data.shortDesc as string) ?? '',
     description: (data.description as string) ?? '',
     ctaLabel: (data.ctaLabel as string) ?? '',
+    logoSrc: resolveAssetPath((data.logoSrc as string) ?? ''),
   }
 }
 
