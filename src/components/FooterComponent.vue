@@ -180,14 +180,27 @@ defineProps<{
   }
   .footer-top {
     flex-direction: column;
+    align-items: center;
     gap: 32px;
+    text-align: center;
+  }
+  .footer-brand {
+    text-align: center;
   }
   .footer-links-group {
     flex-direction: column;
+    align-items: center;
     gap: 28px;
+  }
+  .footer-col {
+    text-align: center;
+  }
+  .footer-social {
+    justify-content: center;
   }
   .footer-bottom {
     flex-direction: column;
+    align-items: center;
     gap: 12px;
     text-align: center;
   }
