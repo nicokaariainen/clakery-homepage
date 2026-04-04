@@ -5,17 +5,17 @@ import yaml from 'js-yaml'
 export interface HomeContent {
   title: string
   shortDesc: string
-  logoSrc: string
-  backgroundImageSrc: string
-  orderButtonHref: string
+  description: string
+  ctaLabel: string
 }
 
 export interface Product {
-  imageSrc: string
   name: string
   description: string
   price: string
-  orderUrl: string
+  imageSrc: string       // TinaCMS image path (empty string if not set)
+  emoji: string          // fallback placeholder
+  badge: string          // empty string if not set
 }
 
 export interface BlogPost {
@@ -26,13 +26,16 @@ export interface BlogPost {
 }
 
 export interface AboutContent {
-  images: Array<{ src: string; alt: string }>
-  description: string
+  makerEmoji: string
+  bio: string            // two paragraphs separated by \n\n
+  quote: string
 }
 
 export interface FooterSettings {
   artistName: string
   instagramUrl: string
+  email: string
+  instagramHandle: string
 }
 
 // --- Frontmatter parser ---
@@ -47,7 +50,7 @@ function resolveAssetPath(path: string): string {
   return path
 }
 
-function parseFrontmatter(content: string): { data: Record<string, unknown>; body: string } {
+export function parseFrontmatter(content: string): { data: Record<string, unknown>; body: string } {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
   if (!match) return { data: {}, body: content }
 
@@ -80,15 +83,14 @@ const footerFiles = import.meta.glob('/content/footer/*.json', { query: '?raw', 
 export async function getHomeContent(): Promise<HomeContent> {
   const raw = homeFiles['/content/home/index.md']
   if (!raw) {
-    return { title: '', shortDesc: '', logoSrc: '', backgroundImageSrc: '', orderButtonHref: '' }
+    return { title: '', shortDesc: '', description: '', ctaLabel: '' }
   }
   const { data } = parseFrontmatter(raw)
   return {
     title: (data.title as string) ?? '',
     shortDesc: (data.shortDesc as string) ?? '',
-    logoSrc: resolveAssetPath((data.logoSrc as string) ?? ''),
-    backgroundImageSrc: resolveAssetPath((data.backgroundImageSrc as string) ?? ''),
-    orderButtonHref: (data.orderButtonHref as string) ?? '',
+    description: (data.description as string) ?? '',
+    ctaLabel: (data.ctaLabel as string) ?? '',
   }
 }
 
@@ -100,7 +102,8 @@ export async function getProducts(): Promise<Product[]> {
       description: (data.description as string) ?? '',
       price: (data.price as string) ?? '',
       imageSrc: resolveAssetPath((data.imageSrc as string) ?? ''),
-      orderUrl: (data.orderUrl as string) ?? '',
+      emoji: (data.emoji as string) ?? '',
+      badge: (data.badge as string) ?? '',
     }
   })
 }
@@ -126,30 +129,30 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 export async function getAboutContent(): Promise<AboutContent> {
   const raw = aboutFiles['/content/about/index.md']
   if (!raw) {
-    return { images: [], description: '' }
+    return { makerEmoji: '', bio: '', quote: '' }
   }
-  const { data, body } = parseFrontmatter(raw)
-  const images = Array.isArray(data.images)
-    ? (data.images as Array<{ src: string; alt: string }>).map((img) => ({
-        src: resolveAssetPath(img?.src ?? ''),
-        alt: img?.alt ?? '',
-      }))
-    : []
-  return { images, description: body }
+  const { data } = parseFrontmatter(raw)
+  return {
+    makerEmoji: (data.makerEmoji as string) ?? '',
+    bio: (data.bio as string) ?? '',
+    quote: (data.quote as string) ?? '',
+  }
 }
 
 export async function getFooterSettings(): Promise<FooterSettings> {
   const raw = footerFiles['/content/footer/index.json']
   if (!raw) {
-    return { artistName: '', instagramUrl: '' }
+    return { artistName: '', instagramUrl: '', email: '', instagramHandle: '' }
   }
   try {
     const parsed = JSON.parse(raw)
     return {
       artistName: (parsed.artistName as string) ?? '',
       instagramUrl: (parsed.instagramUrl as string) ?? '',
+      email: (parsed.email as string) ?? '',
+      instagramHandle: (parsed.instagramHandle as string) ?? '',
     }
   } catch {
-    return { artistName: '', instagramUrl: '' }
+    return { artistName: '', instagramUrl: '', email: '', instagramHandle: '' }
   }
 }

@@ -1,17 +1,9 @@
 ---
-images:
-  - src: /images/mokkapala.png
-    alt: Artist at work in the studio
-  - src: /images/mokkapala.png
-    alt: Handcrafted clay pieces on display
+makerEmoji: "👩‍🎨"
+bio: |
+  Hi there! I'm the baker-sculptor behind c.clakery — a tiny studio where polymer clay transforms into your favourite baked treats. Every croissant, brownie, and cookie is hand-rolled, textured, and painted to look good enough to eat (please don't!).
+
+  What started as a weekend hobby quickly became a sweet obsession. Each piece takes hours of patient sculpting, and I love knowing they bring little moments of joy to your everyday carry.
+quote: >-
+  Every tiny treat is a love letter to the art of making things by hand.
 ---
-
-## Hello, I'm the maker behind C.Clakery
-
-I create handcrafted clay pieces inspired by the warmth and charm of a bakery. Each item is shaped, painted, and finished by hand in my small studio.
-
-What started as a hobby quickly became a passion. I love experimenting with colors, textures, and shapes to bring a little joy into everyday objects.
-
-When I'm not working with clay, you can find me exploring local markets, sketching new designs, or enjoying a good cup of coffee.
-
-Thank you for visiting — I hope my creations bring a smile to your day!

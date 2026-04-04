@@ -1,25 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap');
 
 /* color palette */
 :root {
-  --color-dark-red: #6F1D1B;
-  --color-tan: #BB9457;
-  --color-dark-brown: #432818;
-  --color-brown: #99582A;
-  --color-cream: #FFE6A7;
-  --color-caramel: #B58351;
+  --cream: #FBF7F0;
+  --beige: #F0E6D6;
+  --beige-dark: #E4D5C0;
+  --warm-brown: #C4A882;
+  --terracotta-light: #D4A574;
+  --terracotta: #C08B5C;
+  --soft-brown: #8B7355;
+  --dark-brown: #5C4A32;
+  --off-white: #FFFCF7;
+  --blush: #F2DDD0;
+  --sage: #C5CEBA;
 
-  --color-background: var(--color-tan);
-  --color-background-soft: var(--color-cream);
-  --color-background-mute: var(--color-caramel);
+  --font-body: 'Outfit', sans-serif;
+  --font-heading: 'DM Serif Display', serif;
 
-  --color-border: var(--color-brown);
-  --color-border-hover: var(--color-dark-brown);
-
-  --color-heading: var(--color-dark-brown);
-  --color-text: var(--color-dark-brown);
-
-  --section-gap: 160px;
+  --radius-card: 20px;
+  --radius-button: 50px;
 }
 
 *,
@@ -36,17 +35,42 @@ html {
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  color: var(--dark-brown);
+  background: var(--cream);
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family:
-    'Bitter',
-    serif;
+  font-family: var(--font-body);
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUpCard {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatBlob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.05); }
+  66% { transform: translate(-15px, 20px) scale(0.95); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
 }

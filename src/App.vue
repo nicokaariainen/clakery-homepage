@@ -7,6 +7,8 @@ import { getFooterSettings } from './content'
 // Fallback defaults
 const artistName = ref('C.Clakery')
 const instagramUrl = ref('https://instagram.com/c.clakery')
+const email = ref('hello@cclakery.com')
+const instagramHandle = ref('@c.clakery')
 
 onMounted(async () => {
   try {
@@ -16,6 +18,12 @@ onMounted(async () => {
     }
     if (settings.instagramUrl) {
       instagramUrl.value = settings.instagramUrl
+    }
+    if (settings.email) {
+      email.value = settings.email
+    }
+    if (settings.instagramHandle) {
+      instagramHandle.value = settings.instagramHandle
     }
   } catch {
     // Fallback defaults already set
@@ -29,7 +37,7 @@ onMounted(async () => {
     <main>
       <router-view />
     </main>
-    <FooterComponent :artist-name="artistName" :instagram-url="instagramUrl" />
+    <FooterComponent :artist-name="artistName" :instagram-url="instagramUrl" :email="email" :instagram-handle="instagramHandle" />
   </div>
 </template>
 
@@ -44,5 +52,6 @@ onMounted(async () => {
 main {
   flex: 1;
   width: 100%;
+  padding-top: 70px;
 }
 </style>

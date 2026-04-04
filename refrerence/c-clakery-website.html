@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>c.clakery — Where Clay Meets Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FBF7F0;
+    --beige: #F0E6D6;
+    --beige-dark: #E4D5C0;
+    --warm-brown: #C4A882;
+    --terracotta-light: #D4A574;
+    --terracotta: #C08B5C;
+    --soft-brown: #8B7355;
+    --dark-brown: #5C4A32;
+    --off-white: #FFFCF7;
+    --blush: #F2DDD0;
+    --sage: #C5CEBA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--dark-brown);
+    overflow-x: hidden;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background: rgba(251, 247, 240, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(196, 168, 130, 0.15);
+    animation: fadeDown 0.8s ease-out;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--dark-brown);
+    letter-spacing: 0.5px;
+  }
+  .nav-logo span { color: var(--terracotta); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--soft-brown);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--terracotta);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--terracotta); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, var(--off-white) 0%, var(--beige) 50%, var(--blush) 100%);
+  }
+
+  .hero-bg-shapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero-bg-shapes .blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.25;
+  }
+  .blob-1 {
+    width: 500px; height: 500px;
+    background: var(--blush);
+    top: -100px; right: -100px;
+    animation: floatBlob 12s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 350px; height: 350px;
+    background: var(--beige-dark);
+    bottom: -50px; left: -80px;
+    animation: floatBlob 10s ease-in-out infinite reverse;
+  }
+  .blob-3 {
+    width: 200px; height: 200px;
+    background: var(--sage);
+    top: 30%; left: 10%;
+    animation: floatBlob 14s ease-in-out infinite 2s;
+  }
+
+  @keyframes floatBlob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -30px) scale(1.05); }
+    66% { transform: translate(-15px, 20px) scale(0.95); }
+  }
+
+  .hero-content {
+    text-align: center;
+    z-index: 2;
+    padding: 0 40px;
+    animation: fadeUp 1s ease-out 0.3s both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 86px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--dark-brown);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+  .hero-title .accent {
+    color: var(--terracotta);
+    font-style: italic;
+  }
+
+  .hero-tagline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--terracotta-light);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--soft-brown);
+    max-width: 440px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 36px;
+    background: var(--dark-brown);
+    color: var(--cream);
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(92, 74, 50, 0.15);
+  }
+  .hero-cta:hover {
+    background: var(--terracotta);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(192, 139, 92, 0.25);
+  }
+  .hero-cta svg { transition: transform 0.3s; }
+  .hero-cta:hover svg { transform: translateX(3px); }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--warm-brown);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ============ CATALOG SECTION ============ */
+  .catalog {
+    padding: 100px 60px 120px;
+    background: var(--off-white);
+    position: relative;
+  }
+
+  .catalog::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--terracotta-light), transparent);
+    border-radius: 2px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 44px;
+    color: var(--dark-brown);
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .section-subtitle {
+    font-size: 15px;
+    color: var(--soft-brown);
+    font-weight: 300;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    background: var(--cream);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    border: 1px solid rgba(196, 168, 130, 0.12);
+    opacity: 0;
+    animation: fadeUpCard 0.6s ease-out forwards;
+  }
+  .product-card:nth-child(1) { animation-delay: 0.1s; }
+  .product-card:nth-child(2) { animation-delay: 0.2s; }
+  .product-card:nth-child(3) { animation-delay: 0.3s; }
+  .product-card:nth-child(4) { animation-delay: 0.4s; }
+  .product-card:nth-child(5) { animation-delay: 0.5s; }
+  .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes fadeUpCard {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(92, 74, 50, 0.1);
+    border-color: rgba(192, 139, 92, 0.2);
+  }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-img-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    transition: transform 0.5s ease;
+  }
+  .product-card:hover .product-img-inner { transform: scale(1.05); }
+
+  .img-croissant { background: linear-gradient(145deg, #F5E6D0, #EDCFB0); }
+  .img-brownie { background: linear-gradient(145deg, #E8D5C0, #D4B896); }
+  .img-cake { background: linear-gradient(145deg, #F2DDD0, #E8C7B5); }
+  .img-donut { background: linear-gradient(145deg, #F0E6D6, #E4D5C0); }
+  .img-cookie { background: linear-gradient(145deg, #ECE0D0, #DDD0B8); }
+  .img-bread { background: linear-gradient(145deg, #F5EAD8, #E8D8C0); }
+
+  .product-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 5px 12px;
+    background: rgba(255, 252, 247, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 50px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    font-weight: 500;
+  }
+
+  .product-info {
+    padding: 20px 22px 24px;
+  }
+  .product-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--dark-brown);
+    margin-bottom: 4px;
+  }
+  .product-desc {
+    font-size: 13px;
+    color: var(--warm-brown);
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+  .product-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .product-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--terracotta);
+  }
+
+  /* ============ ABOUT SECTION ============ */
+  .about {
+    padding: 120px 60px;
+    background: var(--beige);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-deco {
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(192, 139, 92, 0.08);
+    top: -100px; right: -60px;
+  }
+  .about-deco-2 {
+    position: absolute;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(197, 206, 186, 0.15);
+    bottom: -40px; left: -40px;
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-image {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: linear-gradient(145deg, var(--blush), var(--beige-dark));
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-image::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 18px;
+    pointer-events: none;
+  }
+
+  .about-text .section-label { text-align: left; }
+  .about-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    color: var(--dark-brown);
+    margin-bottom: 24px;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+  .about-heading em {
+    color: var(--terracotta);
+    font-style: italic;
+  }
+  .about-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--soft-brown);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+  .about-divider {
+    width: 50px; height: 2px;
+    background: var(--terracotta-light);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  .about-quote {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--terracotta);
+    padding-left: 20px;
+    border-left: 2px solid var(--terracotta-light);
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--dark-brown);
+    color: var(--beige);
+    padding: 60px 60px 30px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 50px;
+  }
+  .footer-brand .footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+  .footer-brand .footer-logo span { color: var(--terracotta-light); }
+  .footer-brand .footer-tagline {
+    font-size: 13px;
+    color: var(--warm-brown);
+    font-style: italic;
+    font-family: 'DM Serif Display', serif;
+  }
+
+  .footer-links-group {
+    display: flex;
+    gap: 80px;
+  }
+  .footer-col h4 {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 12px; }
+  .footer-col a {
+    color: var(--beige-dark);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 300;
+    transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--terracotta-light); }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+  }
+  .social-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 252, 247, 0.08);
+    border: 1px solid rgba(255, 252, 247, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .social-icon:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    transform: translateY(-2px);
+  }
+  .social-icon.ig-highlight {
+    background: rgba(192, 139, 92, 0.2);
+    border-color: var(--terracotta-light);
+  }
+  .social-icon svg { width: 18px; height: 18px; fill: var(--beige); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(196, 168, 130, 0.15);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-size: 12px;
+    color: var(--warm-brown);
+    font-weight: 300;
+  }
+  .footer-made {
+    font-size: 12px;
+    color: var(--warm-brown);
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <div class="nav-logo">c.<span>clakery</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#catalog">Catalog</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-bg-shapes">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-title">c.<span class="accent">clakery</span></h1>
+    <p class="hero-tagline">Where Clay Meets Bakery</p>
+    <p class="hero-desc">Tiny clay treats baked with love — croissants, brownies & all the sweetness, minus the calories. Handcrafted with care, each piece is a little celebration.</p>
+    <a href="#catalog" class="hero-cta">
+      Explore Collection
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ===== CATALOG ===== -->
+<section class="catalog" id="catalog">
+  <div class="section-header">
+    <div class="section-label">Shop the sweetness</div>
+    <h2 class="section-title">Our Collection</h2>
+    <p class="section-subtitle">Each piece is hand-sculpted, painted, and sealed with love — no two are ever the same.</p>
+  </div>
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-img-inner img-croissant">🥐</div>
+        <span class="product-tag">Bestseller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Clay Croissant Charm</div>
+        <div class="product-desc">Mini golden croissant pendant</div>
+        <div class="product-bottom">
+          <span class="product-price">RM 18</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-img-inner img-brownie">🍫</div>
+        <span class="product-tag">New</span>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Brownie Stack Magnet</div>
+        <div class="product-desc">Fudgy brownie fridge magnet</div>
+        <div class="product-bottom">
+          <span class="product-price">RM 15</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-img-inner img-cake">🍰</div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Strawberry Cake Ring</div>
+        <div class="product-desc">Dainty cake slice statement ring</div>
+        <div class="product-bottom">
+          <span class="product-price">RM 22</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-img-inner img-donut">🍩</div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Glazed Donut Earrings</div>
+        <div class="product-desc">Matching pair with sprinkle details</div>
+        <div class="product-bottom">
+          <span class="product-price">RM 25</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-img-inner img-cookie">🍪</div>
+        <span class="product-tag">Popular</span>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Chocolate Chip Keychain</div>
+        <div class="product-desc">Chunky cookie with real-look chips</div>
+        <div class="product-bottom">
+          <span class="product-price">RM 12</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-img-inner img-bread">🥖</div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Baguette Hair Clip</div>
+        <div class="product-desc">Crispy golden baguette barrette</div>
+        <div class="product-bottom">
+          <span class="product-price">RM 16</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about" id="about">
+  <div class="about-deco"></div>
+  <div class="about-deco-2"></div>
+  <div class="about-inner">
+    <div class="about-image-wrap">
+      <div class="about-image">👩‍🎨</div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Nice to meet you</div>
+      <h2 class="about-heading">The Maker Behind<br><em>c.clakery</em></h2>
+      <p class="about-body">Hi there! I'm the baker-sculptor behind c.clakery — a tiny studio where polymer clay transforms into your favourite baked treats. Every croissant, brownie, and cookie is hand-rolled, textured, and painted to look good enough to eat (please don't!).</p>
+      <p class="about-body">What started as a weekend hobby quickly became a sweet obsession. Each piece takes hours of patient sculpting, and I love knowing they bring little moments of joy to your everyday carry.</p>
+      <div class="about-divider"></div>
+      <p class="about-quote">"Every tiny treat is a love letter to the art of making things by hand."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">c.<span>clakery</span></div>
+        <p class="footer-tagline">Where Clay Meets Bakery</p>
+      </div>
+      <div class="footer-links-group">
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#catalog">Catalog</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">hello@cclakery.com</a></li>
+            <li><a href="#">@c.clakery</a></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--warm-brown);margin-bottom:18px;font-weight:500;">Follow Along</h4>
+        <div class="footer-social">
+          <a href="#" class="social-icon ig-highlight">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2026 c.clakery. All rights reserved.</p>
+      <p class="footer-made">Crafted with 🤎 and a little bit of clay</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

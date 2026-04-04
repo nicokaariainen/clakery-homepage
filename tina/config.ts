@@ -22,11 +22,10 @@ export default defineConfig({
         path: 'content/home',
         format: 'md',
         fields: [
-          { type: 'string', name: 'title', label: 'Title' },
-          { type: 'string', name: 'shortDesc', label: 'Short Description' },
-          { type: 'image', name: 'logoSrc', label: 'Logo' },
-          { type: 'image', name: 'backgroundImageSrc', label: 'Background Image' },
-          { type: 'string', name: 'orderButtonHref', label: 'Order Button URL' },
+          { type: 'string', name: 'title', label: 'Brand Name' },
+          { type: 'string', name: 'shortDesc', label: 'Tagline' },
+          { type: 'string', name: 'description', label: 'Hero Description', ui: { component: 'textarea' } },
+          { type: 'string', name: 'ctaLabel', label: 'CTA Button Label' },
         ],
       },
       {
@@ -38,8 +37,9 @@ export default defineConfig({
           { type: 'string', name: 'name', label: 'Name' },
           { type: 'string', name: 'description', label: 'Description' },
           { type: 'string', name: 'price', label: 'Price' },
-          { type: 'image', name: 'imageSrc', label: 'Image' },
-          { type: 'string', name: 'orderUrl', label: 'Order URL' },
+          { type: 'image', name: 'imageSrc', label: 'Product Image' },
+          { type: 'string', name: 'emoji', label: 'Emoji Fallback' },
+          { type: 'string', name: 'badge', label: 'Badge Text' },
         ],
       },
       {
@@ -59,17 +59,9 @@ export default defineConfig({
         path: 'content/about',
         format: 'md',
         fields: [
-          {
-            type: 'object',
-            name: 'images',
-            label: 'Images',
-            list: true,
-            fields: [
-              { type: 'image', name: 'src', label: 'Image' },
-              { type: 'string', name: 'alt', label: 'Alt Text' },
-            ],
-          },
-          { type: 'rich-text', name: 'description', label: 'Description', isBody: true },
+          { type: 'string', name: 'makerEmoji', label: 'Maker Emoji' },
+          { type: 'string', name: 'bio', label: 'Bio', ui: { component: 'textarea' } },
+          { type: 'string', name: 'quote', label: 'Quote' },
         ],
       },
       {
@@ -80,6 +72,8 @@ export default defineConfig({
         fields: [
           { type: 'string', name: 'artistName', label: 'Artist Name' },
           { type: 'string', name: 'instagramUrl', label: 'Instagram URL' },
+          { type: 'string', name: 'email', label: 'Email Address' },
+          { type: 'string', name: 'instagramHandle', label: 'Instagram Handle' },
         ],
       },
     ],
