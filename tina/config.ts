@@ -4,7 +4,7 @@ export default defineConfig({
   branch: process.env.TINA_BRANCH || 'main',
   clientId: process.env.TINA_PUBLIC_CLIENT_ID || null,
   token: process.env.TINA_TOKEN || null,
-  build: { outputFolder: 'admin', publicFolder: 'public', basePath: 'char-portfolio-site' },
+  build: { outputFolder: 'admin', publicFolder: 'public' },
   media: { tina: { mediaRoot: 'images', publicFolder: 'public' } },
   search: {
     tina: {

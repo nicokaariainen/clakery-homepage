@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/char-portfolio-site/',
+  base: '/',
   plugins: [
     vue(),
     vueJsx(),
