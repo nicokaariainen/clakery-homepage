@@ -1,4 +1,5 @@
 ---
+order: 6
 name: Coming Soon
 description: ''
 price: ''

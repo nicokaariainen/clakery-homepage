@@ -35,6 +35,7 @@ export default defineConfig({
         path: 'content/products',
         format: 'md',
         fields: [
+          { type: 'number', name: 'order', label: 'Display Order' },
           { type: 'string', name: 'name', label: 'Name' },
           { type: 'string', name: 'description', label: 'Description' },
           { type: 'string', name: 'price', label: 'Price' },

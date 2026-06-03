@@ -11,6 +11,7 @@ export interface HomeContent {
 }
 
 export interface Product {
+  order: number
   name: string
   description: string
   price: string
@@ -97,9 +98,12 @@ export async function getHomeContent(): Promise<HomeContent> {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  return Object.entries(productFiles).map(([, raw]) => {
+  const products = Object.entries(productFiles).map(([, raw]) => {
     const { data } = parseFrontmatter(raw)
+    const orderRaw = data.order
+    const order = typeof orderRaw === 'number' ? orderRaw : Number.POSITIVE_INFINITY
     return {
+      order,
       name: (data.name as string) ?? '',
       description: (data.description as string) ?? '',
       price: (data.price as string) ?? '',
@@ -108,6 +112,7 @@ export async function getProducts(): Promise<Product[]> {
       badge: (data.badge as string) ?? '',
     }
   })
+  return products.sort((a, b) => a.order - b.order)
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
