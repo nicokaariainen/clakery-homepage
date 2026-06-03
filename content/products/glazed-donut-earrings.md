@@ -1,7 +1,7 @@
 ---
-name: Glazed Donut Earrings
-description: Pastel glazed donut studs
-price: 25 €
+name: Coming Soon
+description: ''
+price: ''
 imageSrc: ''
 emoji: "\U0001F369"
 badge: ''
