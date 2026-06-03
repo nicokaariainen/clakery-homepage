@@ -1,8 +1,9 @@
 ---
-name: Clay Croissant Charm
-description: Mini golden croissant pendant
-price: 18 €
+name: Coming Soon
+description: ''
+price: ''
 imageSrc: ''
 emoji: "\U0001F950"
-badge: Bestseller
+badge: ''
 ---
+
