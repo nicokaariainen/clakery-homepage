@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
+
 interface ProductItem {
-  imageSrc: string
+  images: string[]
   emoji: string
   name: string
   description: string
@@ -8,9 +10,75 @@ interface ProductItem {
   badge?: string
 }
 
-defineProps<{
+const props = defineProps<{
   products: ProductItem[]
 }>()
+
+const ROTATE_MS = 4000
+const STAGGER_MS = 800
+
+const activeIndices = ref<number[]>([])
+const hoveredCards = ref<Set<number>>(new Set())
+const timers: number[] = []
+
+const prefersReducedMotion = computed(() => {
+  if (typeof window === 'undefined' || !window.matchMedia) return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
+
+function startTimers() {
+  stopTimers()
+  activeIndices.value = props.products.map(() => 0)
+
+  if (prefersReducedMotion.value) return
+
+  props.products.forEach((product, cardIdx) => {
+    if (product.images.length <= 1) return
+    const timerId = window.setTimeout(() => {
+      const intervalId = window.setInterval(() => {
+        if (hoveredCards.value.has(cardIdx)) return
+        const total = product.images.length
+        const current = activeIndices.value[cardIdx] ?? 0
+        const next = (current + 1) % total
+        const updated = activeIndices.value.slice()
+        updated[cardIdx] = next
+        activeIndices.value = updated
+      }, ROTATE_MS)
+      timers.push(intervalId)
+    }, cardIdx * STAGGER_MS)
+    timers.push(timerId)
+  })
+}
+
+function stopTimers() {
+  while (timers.length > 0) {
+    const id = timers.pop()
+    if (id !== undefined) {
+      window.clearTimeout(id)
+      window.clearInterval(id)
+    }
+  }
+}
+
+function handleMouseEnter(cardIdx: number) {
+  hoveredCards.value = new Set([...hoveredCards.value, cardIdx])
+}
+
+function handleMouseLeave(cardIdx: number) {
+  const next = new Set(hoveredCards.value)
+  next.delete(cardIdx)
+  hoveredCards.value = next
+}
+
+// Restart whenever the products list changes (it loads asynchronously
+// in the parent, so it may arrive empty and then populate).
+watch(
+  () => props.products,
+  () => startTimers(),
+  { immediate: true, deep: false },
+)
+
+onBeforeUnmount(stopTimers)
 </script>
 
 <template>
@@ -25,18 +93,37 @@ defineProps<{
         v-for="(product, index) in products"
         :key="index"
         class="product-card"
+        @mouseenter="handleMouseEnter(index)"
+        @mouseleave="handleMouseLeave(index)"
       >
         <div class="product-img">
           <div class="product-img-inner">
-            <img
-              v-if="product.imageSrc"
-              :src="product.imageSrc"
-              :alt="product.name"
-              class="product-image"
-            />
+            <template v-if="product.images.length > 0">
+              <img
+                v-for="(src, imgIdx) in product.images"
+                :key="src + imgIdx"
+                :src="src"
+                :alt="product.name"
+                class="product-image"
+                :class="{ 'is-active': (activeIndices[index] ?? 0) === imgIdx }"
+                loading="lazy"
+              />
+            </template>
             <template v-else>{{ product.emoji }}</template>
           </div>
           <span v-if="product.badge" class="product-tag">{{ product.badge }}</span>
+          <div
+            v-if="product.images.length > 1"
+            class="product-img-dots"
+            aria-hidden="true"
+          >
+            <span
+              v-for="(_, imgIdx) in product.images"
+              :key="imgIdx"
+              class="product-img-dot"
+              :class="{ 'is-active': (activeIndices[index] ?? 0) === imgIdx }"
+            />
+          </div>
         </div>
         <div class="product-info">
           <div class="product-name">{{ product.name }}</div>
@@ -147,6 +234,7 @@ defineProps<{
   align-items: center;
   justify-content: center;
   font-size: 56px;
+  position: relative;
   transition: transform 0.5s ease;
   background: linear-gradient(145deg, var(--beige), var(--beige-dark));
 }
@@ -156,9 +244,43 @@ defineProps<{
 }
 
 .product-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.product-image.is-active {
+  opacity: 1;
+}
+
+.product-img-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  padding: 5px 9px;
+  background: rgba(255, 252, 247, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+}
+
+.product-img-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(92, 74, 50, 0.25);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.product-img-dot.is-active {
+  background: var(--terracotta);
+  transform: scale(1.2);
 }
 
 .product-tag {

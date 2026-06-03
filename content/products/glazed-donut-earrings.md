@@ -3,7 +3,7 @@ order: 5
 name: Coming Soon
 description: ''
 price: ''
-imageSrc: ''
+images: []
 emoji: "\U0001F369"
 badge: ''
 ---

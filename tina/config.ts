@@ -39,7 +39,7 @@ export default defineConfig({
           { type: 'string', name: 'name', label: 'Name' },
           { type: 'string', name: 'description', label: 'Description' },
           { type: 'string', name: 'price', label: 'Price' },
-          { type: 'image', name: 'imageSrc', label: 'Product Image' },
+          { type: 'image', name: 'images', label: 'Product Images (carousel)', list: true },
           { type: 'string', name: 'emoji', label: 'Emoji Fallback' },
           { type: 'string', name: 'badge', label: 'Badge Text' },
         ],

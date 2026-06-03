@@ -3,7 +3,7 @@ order: 3
 name: Coming Soon
 description: ''
 price: ''
-imageSrc: ''
+images: []
 emoji: "\U0001F36A"
 badge: Popular
 ---

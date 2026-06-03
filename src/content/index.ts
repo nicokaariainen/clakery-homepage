@@ -15,7 +15,7 @@ export interface Product {
   name: string
   description: string
   price: string
-  imageSrc: string       // TinaCMS image path (empty string if not set)
+  images: string[]       // 1+ TinaCMS image paths; empty array if none
   emoji: string          // fallback placeholder
   badge: string          // empty string if not set
 }
@@ -102,12 +102,18 @@ export async function getProducts(): Promise<Product[]> {
     const { data } = parseFrontmatter(raw)
     const orderRaw = data.order
     const order = typeof orderRaw === 'number' ? orderRaw : Number.POSITIVE_INFINITY
+
+    const imagesRaw = data.images
+    const images = (Array.isArray(imagesRaw) ? imagesRaw : [])
+      .filter((src): src is string => typeof src === 'string' && src.length > 0)
+      .map(resolveAssetPath)
+
     return {
       order,
       name: (data.name as string) ?? '',
       description: (data.description as string) ?? '',
       price: (data.price as string) ?? '',
-      imageSrc: resolveAssetPath((data.imageSrc as string) ?? ''),
+      images,
       emoji: (data.emoji as string) ?? '',
       badge: (data.badge as string) ?? '',
     }
