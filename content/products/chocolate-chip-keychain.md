@@ -1,5 +1,5 @@
 ---
-name: Coming Soon
+name: 'Coming Soon '
 description: ''
 price: ''
 imageSrc: ''
