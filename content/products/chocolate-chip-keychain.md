@@ -1,8 +1,9 @@
 ---
-name: Chocolate Chip Keychain
-description: Chunky cookie bag charm
-price: 12 €
+name: Coming Soon
+description: ''
+price: ''
 imageSrc: ''
 emoji: "\U0001F36A"
 badge: Popular
 ---
+
