@@ -1,9 +1,8 @@
 ---
 title: c.clakery
-shortDesc: Where Clay Meets Bakery
 logoSrc: /images/clakery_logo.png
-description: >-
-  Tiny clay treats baked with love — croissants, brownies & all the sweetness,
-  minus the calories. Handcrafted with care, each piece is a little celebration.
+shortDesc: Where Clay Meets Bakery
+description: 'Handmade polymer clay decorations that decorate your home: croissants, brownies, and more are coming! Each piece is special and made by hand in Finland. '
 ctaLabel: Explore Collection
 ---
+
