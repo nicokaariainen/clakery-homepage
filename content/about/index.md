@@ -1,9 +1,9 @@
 ---
-makerEmoji: "👩‍🎨"
+makerEmoji: "\U0001F469‍\U0001F3A8"
 bio: |
-  Hi there! I'm the baker-sculptor behind c.clakery — a tiny studio where polymer clay transforms into your favourite baked treats. Every croissant, brownie, and cookie is hand-rolled, textured, and painted to look good enough to eat (please don't!).
-
-  What started as a weekend hobby quickly became a sweet obsession. Each piece takes hours of patient sculpting, and I love knowing they bring little moments of joy to your everyday carry.
-quote: >-
-  Every tiny treat is a love letter to the art of making things by hand.
+  I am Charlotte, the sculptor behind c.clakery. I've been making miniature food out of clay since I was a kid. It started with air-dry light clay, just something I learnt for fun, and somehow the habit never went away. The process is really calming and satisfying: figuring out how to get the texture and colours right, until they look like the real food. 
+  Two years ago, I moved to Finland, and that's when I started working with polymer clay. What had always been a hobby eventually grew into something I wanted to share. I've brought my work to a few markets in Helsinki, Tampere and Jyväskylä, and it is motivating to see someone who appreciates and connects with my work! It encourages me to keep creating. 
+  I made everything by hand, one piece at a time. I want the things I make feel worth keeping, decorative, but also with a usage e.g. photo holders that display your treasurable moments. Hope you like them <3
+quote: ''
 ---
+
