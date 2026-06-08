@@ -4,7 +4,31 @@
     <div class="about-deco-2"></div>
     <div class="about-inner">
       <div class="about-image-wrap">
-        <div class="about-image">{{ makerEmoji }}</div>
+        <div
+          class="about-image"
+          @mouseenter="hovered = true"
+          @mouseleave="hovered = false"
+        >
+          <template v-if="images.length > 0">
+            <img
+              v-for="(src, imgIdx) in images"
+              :key="src + imgIdx"
+              :src="src"
+              alt="About photo"
+              class="about-image-img"
+              :class="{ 'is-active': activeIndex === imgIdx }"
+              loading="lazy"
+            />
+            <div v-if="images.length > 1" class="about-image-dots" aria-hidden="true">
+              <span
+                v-for="(_, imgIdx) in images"
+                :key="imgIdx"
+                class="about-image-dot"
+                :class="{ 'is-active': activeIndex === imgIdx }"
+              />
+            </div>
+          </template>
+        </div>
       </div>
       <div class="about-text">
         <div class="section-label">Nice to meet you</div>
@@ -12,18 +36,18 @@
         <p v-for="(paragraph, index) in bioParagraphs" :key="index" class="about-body">
           {{ paragraph }}
         </p>
-        <div class="about-divider"></div>
-        <p class="about-quote">"{{ quote }}"</p>
+        <div v-if="quote" class="about-divider"></div>
+        <p v-if="quote" class="about-quote">"{{ quote }}"</p>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 
 const props = defineProps<{
-  makerEmoji: string
+  images: string[]
   bio: string
   quote: string
 }>()
@@ -31,6 +55,39 @@ const props = defineProps<{
 const bioParagraphs = computed(() =>
   props.bio.split('\n\n').filter((p) => p.trim().length > 0)
 )
+
+const ROTATE_MS = 5000
+
+const activeIndex = ref(0)
+const hovered = ref(false)
+let intervalId: number | undefined
+
+const prefersReducedMotion = computed(() => {
+  if (typeof window === 'undefined' || !window.matchMedia) return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
+
+function startTimer() {
+  stopTimer()
+  activeIndex.value = 0
+  if (prefersReducedMotion.value) return
+  if (props.images.length <= 1) return
+  intervalId = window.setInterval(() => {
+    if (hovered.value) return
+    activeIndex.value = (activeIndex.value + 1) % props.images.length
+  }, ROTATE_MS)
+}
+
+function stopTimer() {
+  if (intervalId !== undefined) {
+    window.clearInterval(intervalId)
+    intervalId = undefined
+  }
+}
+
+watch(() => props.images, () => startTimer(), { immediate: true, deep: false })
+
+onBeforeUnmount(stopTimer)
 </script>
 
 <style scoped>
@@ -84,7 +141,6 @@ const bioParagraphs = computed(() =>
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 80px;
   position: relative;
   overflow: hidden;
 }
@@ -96,6 +152,48 @@ const bioParagraphs = computed(() =>
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 18px;
   pointer-events: none;
+  z-index: 2;
+}
+
+.about-image-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.about-image-img.is-active {
+  opacity: 1;
+}
+
+.about-image-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  padding: 5px 9px;
+  background: rgba(255, 252, 247, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+  z-index: 3;
+}
+
+.about-image-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(92, 74, 50, 0.25);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.about-image-dot.is-active {
+  background: var(--terracotta);
+  transform: scale(1.2);
 }
 
 .about-text .section-label {

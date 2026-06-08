@@ -28,9 +28,15 @@ export interface BlogPost {
 }
 
 export interface AboutContent {
-  makerEmoji: string
+  images: string[]
   bio: string            // two paragraphs separated by \n\n
   quote: string
+}
+
+export interface SectionHeader {
+  label: string
+  title: string
+  subtitle: string
 }
 
 export interface FooterSettings {
@@ -79,6 +85,8 @@ const productFiles = import.meta.glob('/content/products/*.md', { query: '?raw',
 const blogFiles = import.meta.glob('/content/blog/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const aboutFiles = import.meta.glob('/content/about/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const footerFiles = import.meta.glob('/content/footer/*.json', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+const catalogFiles = import.meta.glob('/content/catalog/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+const contactFiles = import.meta.glob('/content/contact/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 // --- Content accessor functions ---
 
@@ -142,14 +150,37 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 export async function getAboutContent(): Promise<AboutContent> {
   const raw = aboutFiles['/content/about/index.md']
   if (!raw) {
-    return { makerEmoji: '', bio: '', quote: '' }
+    return { images: [], bio: '', quote: '' }
   }
   const { data } = parseFrontmatter(raw)
+  const imagesRaw = data.images
+  const images = (Array.isArray(imagesRaw) ? imagesRaw : [])
+    .filter((src): src is string => typeof src === 'string' && src.length > 0)
+    .map(resolveAssetPath)
   return {
-    makerEmoji: (data.makerEmoji as string) ?? '',
+    images,
     bio: (data.bio as string) ?? '',
     quote: (data.quote as string) ?? '',
   }
+}
+
+function readSectionHeader(files: Record<string, string>, path: string): SectionHeader {
+  const raw = files[path]
+  if (!raw) return { label: '', title: '', subtitle: '' }
+  const { data } = parseFrontmatter(raw)
+  return {
+    label: (data.label as string) ?? '',
+    title: (data.title as string) ?? '',
+    subtitle: (data.subtitle as string) ?? '',
+  }
+}
+
+export async function getCatalogSection(): Promise<SectionHeader> {
+  return readSectionHeader(catalogFiles, '/content/catalog/index.md')
+}
+
+export async function getContactSection(): Promise<SectionHeader> {
+  return readSectionHeader(contactFiles, '/content/contact/index.md')
 }
 
 export async function getFooterSettings(): Promise<FooterSettings> {

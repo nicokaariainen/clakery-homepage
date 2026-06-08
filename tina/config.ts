@@ -45,6 +45,30 @@ export default defineConfig({
         ],
       },
       {
+        name: 'catalog',
+        label: 'Catalog Section',
+        path: 'content/catalog',
+        format: 'md',
+        ui: { allowedActions: { create: false, delete: false } },
+        fields: [
+          { type: 'string', name: 'label', label: 'Section Label' },
+          { type: 'string', name: 'title', label: 'Section Title' },
+          { type: 'string', name: 'subtitle', label: 'Section Subtitle', ui: { component: 'textarea' } },
+        ],
+      },
+      {
+        name: 'contact',
+        label: 'Contact Section',
+        path: 'content/contact',
+        format: 'md',
+        ui: { allowedActions: { create: false, delete: false } },
+        fields: [
+          { type: 'string', name: 'label', label: 'Section Label' },
+          { type: 'string', name: 'title', label: 'Section Title' },
+          { type: 'string', name: 'subtitle', label: 'Section Subtitle', ui: { component: 'textarea' } },
+        ],
+      },
+      {
         name: 'blog',
         label: 'Blog Posts',
         path: 'content/blog',
@@ -61,7 +85,7 @@ export default defineConfig({
         path: 'content/about',
         format: 'md',
         fields: [
-          { type: 'string', name: 'makerEmoji', label: 'Maker Emoji' },
+          { type: 'image', name: 'images', label: 'Photos (carousel)', list: true },
           { type: 'string', name: 'bio', label: 'Bio', ui: { component: 'textarea' } },
           { type: 'string', name: 'quote', label: 'Quote' },
         ],

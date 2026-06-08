@@ -7,6 +7,12 @@ interface ContactFormData {
   message: string
 }
 
+defineProps<{
+  sectionLabel?: string
+  sectionTitle?: string
+  sectionSubtitle?: string
+}>()
+
 const formData = reactive<ContactFormData>({
   name: '',
   email: '',
@@ -89,9 +95,9 @@ async function handleSubmit() {
   <section id="contact" class="contact-section">
     <div class="contact-inner">
       <div class="section-header">
-        <div class="section-label">Get in touch</div>
-        <h2 class="section-title">Say Hello</h2>
-        <p class="section-subtitle">Have a question or want to place a custom order? Drop me a message.</p>
+        <div class="section-label">{{ sectionLabel || 'Get in touch' }}</div>
+        <h2 class="section-title">{{ sectionTitle || 'Say Hello' }}</h2>
+        <p class="section-subtitle">{{ sectionSubtitle || 'Have a question or want to place a custom order? Drop me a message.' }}</p>
       </div>
 
       <div v-if="submitStatus === 'success'" class="success-message">

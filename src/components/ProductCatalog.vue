@@ -12,6 +12,9 @@ interface ProductItem {
 
 const props = defineProps<{
   products: ProductItem[]
+  sectionLabel?: string
+  sectionTitle?: string
+  sectionSubtitle?: string
 }>()
 
 const ROTATE_MS = 4000
@@ -84,9 +87,9 @@ onBeforeUnmount(stopTimers)
 <template>
   <section id="catalog" class="catalog">
     <div class="section-header">
-      <div class="section-label">Shop the sweetness</div>
-      <h2 class="section-title">Our Collection</h2>
-      <p class="section-subtitle">Each piece is hand-sculpted, painted, and sealed with love — no two are ever the same.</p>
+      <div class="section-label">{{ sectionLabel || 'Shop the sweetness' }}</div>
+      <h2 class="section-title">{{ sectionTitle || 'Our Collection' }}</h2>
+      <p class="section-subtitle">{{ sectionSubtitle || 'Each piece is hand-sculpted, painted, and sealed with love — no two are ever the same.' }}</p>
     </div>
     <div class="product-grid">
       <div
