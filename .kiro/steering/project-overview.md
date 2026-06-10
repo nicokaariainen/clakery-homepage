@@ -122,3 +122,9 @@ Defined in `.env` (gitignored) and mirrored in CI as secrets/vars:
 - **GitHub Pages source setting** → must be "GitHub Actions"; "Deploy from a branch" breaks everything
 - **DNS for custom domain** → `www` must be a CNAME to `nicokaariainen.github.io`, apex needs four A records to GitHub's Pages IPs
 - **StaticForms recipient** → only changeable in the StaticForms.io dashboard, not via env vars or code
+
+## CI / Deploy Gotchas (hard-won)
+
+- **Pin Node to 20 in CI.** Bumping `setup-node` to `node-version: 22` caused `actions/deploy-pages@v4` to fail with `401 Requires authentication` at the deployment step (build and artifact upload succeeded; only the final deploy 401'd). Reverting to Node 20 fixed it. Do not bump the CI Node version without verifying the deploy step still authenticates.
+- **`node_modules` cache key must track the Node version.** The deploy workflow caches `node_modules` keyed on `runner.os` + Node version + `package-lock.json` hash. If you change the Node version, update the version in the cache key too, otherwise CI restores a cache built with native binaries (esbuild, rollup) for the wrong Node version and the build fails. Keep the key's Node version in sync with `setup-node`'s `node-version`.
+- **Cache save is split from restore.** The workflow uses `actions/cache/restore` + a separate `actions/cache/save` (run right after `npm ci`) rather than the combined `actions/cache`. This is deliberate: the combined action only saves in a post-job step, which gets skipped when a later step (like deploy) fails — so a failing deploy would prevent the cache from ever populating. Saving right after install decouples caching from deploy success.
